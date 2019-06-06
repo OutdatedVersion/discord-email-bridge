@@ -1,0 +1,25 @@
+{
+  "name": "discord-email-bridge",
+  "version": "1.0.0",
+  "description": "Provide a way to send messages to and from Discord via email.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OutdatedVersion/discord-email-bridge.git"
+  },
+  "keywords": [],
+  "author": "Ben Watkins <ben@outdatedversion.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/OutdatedVersion/discord-email-bridge/issues"
+  },
+  "homepage": "https://github.com/OutdatedVersion/discord-email-bridge#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.5",
+    "typescript": "^3.5.1"
+  }
+}
