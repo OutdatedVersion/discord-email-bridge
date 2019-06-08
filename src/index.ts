@@ -1,10 +1,9 @@
-import { startHttpServer } from './http';
+import App from './impl/App';
+import { KoaHttpServer } from './impl/KoaHttpServer';
 
-async function main() {
-  startHttpServer();
-}
+const app = new App(new KoaHttpServer());
 
-main().catch(error => {
+app.start().catch(error => {
   console.error('Failed to start', error);
   process.exit(-1);
 });
