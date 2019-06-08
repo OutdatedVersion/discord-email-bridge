@@ -9,9 +9,7 @@ networks:
 services:
   bridge:
     image: outdatedversion/discord-email-bridge
-    environment:
-      - BRIDGE_DISCORD_TOKEN:
-      - BRIDGE_DISCORD_CHANNEL_ID:
+    env_file: .env
     labels:
       # https://docs.traefik.io/basics/#examples
       - traefik.backend=discord-email-bridge
