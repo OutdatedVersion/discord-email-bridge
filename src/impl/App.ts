@@ -1,7 +1,8 @@
 import { IHttpServer } from '../api';
+import { Logger } from 'pino';
 
 export default class App {
-  constructor(private httpServer: IHttpServer) {}
+  constructor(private logger: Logger, private httpServer: IHttpServer) {}
 
   public async start(): Promise<void> {
     await this.httpServer.start(this.getHttpPort());
