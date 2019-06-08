@@ -20,6 +20,16 @@ export class KoaHttpServer implements IHttpServer {
   }
 
   public registerProcesor(path: string, processor: IEmailProcessor<any>): void {
-    throw new Error('Method not implemented.');
+    this.koa.use(async context => {
+      if (context.path !== path) {
+        return;
+      }
+
+      const result = await processor.process(context.request.body);
+
+      // TODO
+
+      context.status = 204;
+    });
   }
 }
