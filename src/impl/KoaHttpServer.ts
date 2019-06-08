@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import koaLogger from 'koa-pino-logger';
-import { IHttpServer } from '../api';
+import { IHttpServer, IEmailProcessor } from '../api';
 import { Server } from 'http';
 import { Logger } from 'pino';
 
@@ -19,7 +19,7 @@ export class KoaHttpServer implements IHttpServer {
     return this.koa.listen(port);
   }
 
-  public async registerProcessor(): Promise<void> {
+  public registerProcesor(path: string, processor: IEmailProcessor<any>): void {
     throw new Error('Method not implemented.');
   }
 }

@@ -1,6 +1,7 @@
 import { Server } from 'http';
+import { IEmailProcessor } from '../processor';
 
 export interface IHttpServer {
   start(port: number): Promise<Server>;
-  registerProcessor(): Promise<void>;
+  registerProcesor(path: string, processor: IEmailProcessor<any>): void;
 }
