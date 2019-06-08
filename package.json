@@ -30,6 +30,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
+    "discord.js": "^11.5.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-pino-logger": "^2.1.3",
