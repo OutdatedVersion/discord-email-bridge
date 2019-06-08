@@ -1,2 +1,2 @@
-export * from './IHttpServer';
-export * from './IProcessor';
+export * from './http/IHttpServer';
+export * from './processor/IEmailProcessor';
