@@ -8,7 +8,7 @@ networks:
 
 services:
   bridge:
-    image: outdatedversion/discord-email-bridge
+    build: .
     env_file: .env
     labels:
       # https://docs.traefik.io/basics/#examples
