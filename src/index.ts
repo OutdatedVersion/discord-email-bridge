@@ -3,15 +3,19 @@ import pino from 'pino';
 import { KoaHttpServer } from './impl/KoaHttpServer';
 import { SesEmailProcessor } from './impl/SesEmailProcessor';
 import { DiscordBot } from './impl/DiscordBot';
+import { buildConfig } from './config';
 
 const logger = pino({
   prettyPrint: process.env.NODE_ENV === 'development'
 });
 
+const config = buildConfig();
+
 const app = new App(
   logger,
+  config,
   new KoaHttpServer(logger),
-  new DiscordBot(logger),
+  new DiscordBot(logger, config.discord),
   new SesEmailProcessor()
 );
 

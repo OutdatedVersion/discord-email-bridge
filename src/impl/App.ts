@@ -1,33 +1,43 @@
 import { IHttpServer, IEmailProcessor } from '../api';
 import { Logger } from 'pino';
 import { IDiscordBot } from '../api/discord';
+import { IParsedEmailMessage } from '../api/processor';
+import { RichEmbed } from 'discord.js';
+import { IConfig } from '../api/config/IConfig';
 
 export default class App {
   constructor(
     private logger: Logger,
+    private config: IConfig,
     private httpServer: IHttpServer,
     private discordBot: IDiscordBot,
     private emailProcessor: IEmailProcessor<any>
   ) {}
 
   public async start(): Promise<void> {
-    this.httpServer.registerProcesor('/ses', this.emailProcessor);
+    this.httpServer.registerBodyHook(
+      '/ses',
+      this.processAndSendMessage.bind(this)
+    );
 
-    await this.httpServer.start(this.getHttpPort());
-    await this.discordBot.start(this.getDiscordToken());
+    await this.httpServer.start(this.config.http.port);
+    await this.discordBot.start(this.config.discord.token);
   }
 
-  private getDiscordToken() {
-    const token = process.env.DISCORD_TOKEN;
+  private async processAndSendMessage(data: any) {
+    const parsedEmail = await this.emailProcessor.process(data);
 
-    if (token) {
-      return token;
-    }
-
-    throw new Error('Missing required env variable: DISCORD_TOKEN');
+    await this.discordBot.sendMessage(this.buildDiscordMessage(parsedEmail));
   }
 
-  private getHttpPort() {
-    return parseInt(process.env.PORT || '2000');
+  private buildDiscordMessage(message: IParsedEmailMessage): RichEmbed {
+    const embed = new RichEmbed();
+
+    embed.setTimestamp(message.timestamp);
+    embed.setDescription(message.content);
+    // TODO: Should be configurable
+    embed.setAuthor("Ethan's Email");
+
+    return embed;
   }
 }
