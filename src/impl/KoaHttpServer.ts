@@ -28,6 +28,13 @@ export class KoaHttpServer implements IHttpServer {
         return;
       }
 
+      const { body } = context.request.body;
+
+      if (!body) {
+        context.throw(400, '400 empty body');
+        return;
+      }
+
       await hook(context.request.body);
 
       context.status = 204;
