@@ -9,8 +9,8 @@ export class KoaHttpServer implements IHttpServer {
   private readonly koa = new Koa();
 
   constructor(private logger: Logger) {
-    this.koa.use(koaLogger());
     this.koa.use(bodyParser());
+    this.koa.use(koaLogger());
   }
 
   public async start(port: number): Promise<Server> {
