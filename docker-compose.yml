@@ -13,7 +13,7 @@ services:
     labels:
       # https://docs.traefik.io/basics/#examples
       - traefik.backend=discord-email-bridge
-      - traefik.frontend.rule=Host:outdatedversion.com;PathPrefix:/discord-email-bridge
+      - traefik.frontend.rule=Host:outdatedversion.com;PathPrefix:/discord-email-bridge;PathPrefixStrip:/discord-email-bridge
       - traefik.docker.network=web
       - traefik.port=2000 # port exposed during image build
     networks:
