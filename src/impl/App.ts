@@ -24,7 +24,7 @@ export default class App {
       return token;
     }
 
-    throw new Error('Missing required env variable: DISCORD_ENV');
+    throw new Error('Missing required env variable: DISCORD_TOKEN');
   }
 
   private getHttpPort() {
