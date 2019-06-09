@@ -27,19 +27,19 @@ export class KoaHttpServer implements IHttpServer {
     path: string,
     hook: (data: any) => Promise<void>
   ): void {
-    this.koa.use(async context => {
+    this.koa.use(async (context, next) => {
       if (context.path !== path) {
-        return;
+        return next();
       }
 
       const { body } = context.request;
 
       if (!body) {
         context.throw(400, '400 empty body');
-        return;
+        return next();
       }
 
-      await hook(context.request.body);
+      await hook(body);
 
       context.status = 204;
     });
