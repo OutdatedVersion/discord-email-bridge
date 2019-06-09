@@ -36,6 +36,6 @@ export class SesEmailSender implements IEmailSender {
       Source: 'out@test-chamber.outdatedversion.com'
     };
 
-    this.sesClient.sendEmail(request);
+    await this.sesClient.sendEmail(request);
   }
 }
