@@ -18,7 +18,10 @@ export default class App {
     private emailProcessor: IEmailProcessor<any>,
     emailSender: IEmailSender
   ) {
-    this.incomingMessageParser = new IncomingMessageParser(emailSender);
+    this.incomingMessageParser = new IncomingMessageParser(
+      this.discordBot,
+      emailSender
+    );
   }
 
   public async start(): Promise<void> {
@@ -27,9 +30,7 @@ export default class App {
       this.processAndSendMessage.bind(this)
     );
 
-    this.discordBot.registerReceiveHook(
-      this.incomingMessageParser.acceptMessage.bind(this.incomingMessageParser)
-    );
+    this.incomingMessageParser.start();
 
     await this.httpServer.start(this.config.http.port);
     await this.discordBot.start(this.config.discord.token);

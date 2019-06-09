@@ -1,14 +1,28 @@
 import { Message } from 'discord.js';
 import { IEmailSender } from '../api/email/IEmailSender';
+import { IDiscordBot } from '../api/discord';
 
 export class IncomingMessageParser {
   private messages: Message[] = [];
 
-  constructor(private emailSender: IEmailSender) {
+  constructor(
+    private discordBot: IDiscordBot,
+    private emailSender: IEmailSender
+  ) {}
+
+  public start() {
+    this.discordBot.registerReceiveHook(this.acceptMessage.bind(this));
+
     setInterval(() => this.processQueue(), 5000);
   }
 
-  public async acceptMessage(message: Message) {
+  private async acceptMessage(message: Message) {
+    const channel = this.discordBot.getMainChannel();
+
+    if (channel.id !== message.channel.id) {
+      return;
+    }
+
     this.messages.push(message);
   }
 
