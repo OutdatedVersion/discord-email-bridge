@@ -15,7 +15,7 @@ export class IncomingMessageParser {
   public start() {
     this.discordBot.registerReceiveHook(this.acceptMessage.bind(this));
 
-    setInterval(() => this.processQueue(), 5000);
+    setInterval(() => this.processQueue(), 10000);
   }
 
   private async acceptMessage(message: Message) {
