@@ -4,6 +4,7 @@ import { KoaHttpServer } from './impl/KoaHttpServer';
 import { SesEmailProcessor } from './impl/SesEmailProcessor';
 import { DiscordBot } from './impl/DiscordBot';
 import { buildConfig } from './config';
+import { SesEmailSender } from './impl/SesEmailSender';
 
 const logger = pino({
   prettyPrint: process.env.NODE_ENV === 'development'
@@ -16,7 +17,8 @@ const app = new App(
   config,
   new KoaHttpServer(logger),
   new DiscordBot(logger, config.discord),
-  new SesEmailProcessor()
+  new SesEmailProcessor(),
+  new SesEmailSender()
 );
 
 app.start().catch(error => {

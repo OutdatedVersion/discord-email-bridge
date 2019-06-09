@@ -4,7 +4,8 @@ import Discord, {
   Guild,
   TextChannel,
   MessageEmbed,
-  RichEmbed
+  RichEmbed,
+  Message
 } from 'discord.js';
 import { IDiscordBot, IDiscordBotConfig } from '../api/discord';
 import { Logger } from 'pino';
@@ -24,6 +25,10 @@ export class DiscordBot implements IDiscordBot {
     const channel = this.getMainChannel();
 
     await channel.send({ embed });
+  }
+
+  public registerReceiveHook(hook: (message: Message) => void): void {
+    this.client.on('message', hook);
   }
 
   private getMainChannel(): TextChannel {

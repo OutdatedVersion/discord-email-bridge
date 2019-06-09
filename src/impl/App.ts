@@ -2,22 +2,33 @@ import { IHttpServer, IEmailProcessor } from '../api';
 import { Logger } from 'pino';
 import { IDiscordBot } from '../api/discord';
 import { IParsedEmailMessage } from '../api/processor';
-import { RichEmbed } from 'discord.js';
+import { RichEmbed, Message } from 'discord.js';
 import { IConfig } from '../api/config/IConfig';
+import { IEmailSender } from '../api/email/IEmailSender';
+import { IncomingMessageParser } from './IncomingMessageProcessor';
 
 export default class App {
+  private incomingMessageParser: IncomingMessageParser;
+
   constructor(
     private logger: Logger,
     private config: IConfig,
     private httpServer: IHttpServer,
     private discordBot: IDiscordBot,
-    private emailProcessor: IEmailProcessor<any>
-  ) {}
+    private emailProcessor: IEmailProcessor<any>,
+    emailSender: IEmailSender
+  ) {
+    this.incomingMessageParser = new IncomingMessageParser(emailSender);
+  }
 
   public async start(): Promise<void> {
     this.httpServer.registerBodyHook(
       '/ses',
       this.processAndSendMessage.bind(this)
+    );
+
+    this.discordBot.registerReceiveHook(
+      this.incomingMessageParser.acceptMessage.bind(this.incomingMessageParser)
     );
 
     await this.httpServer.start(this.config.http.port);

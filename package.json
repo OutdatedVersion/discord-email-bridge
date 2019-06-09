@@ -30,6 +30,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.471.0",
     "discord.js": "^11.5.1",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
