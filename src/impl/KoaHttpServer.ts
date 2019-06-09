@@ -45,7 +45,7 @@ export class KoaHttpServer implements IHttpServer {
     });
   }
 
-  private changeSnsContentType(context: Context) {
+  private changeSnsContentType(context: Context, next: () => Promise<void>) {
     const type = context.request.get('x-amz-sns-message-type');
 
     if (!type) {
@@ -53,5 +53,6 @@ export class KoaHttpServer implements IHttpServer {
     }
 
     context.request.headers['content-type'] = 'application/json';
+    next();
   }
 }
