@@ -4,7 +4,7 @@
   "description": "Provide a way to send messages to and from Discord via email.",
   "main": "index.js",
   "scripts": {
-    "up": "docdocker-compose up --build -d",
+    "up": "docker-compose up --build -d",
     "build": "tsc",
     "dev": "npm run build && NODE_ENV=development node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
