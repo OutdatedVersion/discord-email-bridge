@@ -35,7 +35,7 @@ export class SesEmailSender implements IEmailSender {
           Data: 'Message digest'
         }
       },
-      Source: 'out@test-chamber.outdatedversion.com'
+      Source: 'messages@test-chamber.outdatedversion.com'
     };
 
     await this.sesClient.sendEmail(request).promise();
