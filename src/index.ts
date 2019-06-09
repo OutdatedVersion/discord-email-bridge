@@ -18,7 +18,7 @@ const app = new App(
   new KoaHttpServer(logger),
   new DiscordBot(logger, config.discord),
   new SesEmailProcessor(),
-  new SesEmailSender()
+  new SesEmailSender(config.email.ses)
 );
 
 app.start().catch(error => {

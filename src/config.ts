@@ -9,6 +9,11 @@ export function buildConfig(): IConfig {
     discord: {
       token: getEnvVariable('discord_token'),
       channelId: getEnvVariable('discord_channel_id')
+    },
+    email: {
+      ses: {
+        region: getEnvVariable('ses_region')
+      }
     }
   };
 }

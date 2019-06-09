@@ -1,13 +1,15 @@
 import { SES } from 'aws-sdk';
 import { IEmailSender } from '../api/email/IEmailSender';
+import { ISesEmailSenderConfig } from '../api/email/ISesEmailSenderConfig';
 
 export class SesEmailSender implements IEmailSender {
   private sesClient: SES;
 
-  constructor(sesClient?: SES) {
+  constructor(config: ISesEmailSenderConfig, sesClient?: SES) {
     this.sesClient =
       sesClient ||
       new SES({
+        region: config.region,
         apiVersion: '2010-12-01'
       });
   }
