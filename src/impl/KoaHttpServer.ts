@@ -1,4 +1,4 @@
-import Koa from 'koa';
+import Koa, { Context } from 'koa';
 import bodyParser from 'koa-bodyparser';
 import koaLogger from 'koa-pino-logger';
 import { IHttpServer } from '../api';
@@ -9,6 +9,10 @@ export class KoaHttpServer implements IHttpServer {
   private readonly koa = new Koa();
 
   constructor(private logger: Logger) {
+    // Amazon delivers notifications with a content type of plain text
+    // We need to change that to actually parse them
+    this.koa.use(this.changeSnsContentType.bind(this));
+
     this.koa.use(bodyParser());
     this.koa.use(koaLogger());
   }
@@ -39,5 +43,15 @@ export class KoaHttpServer implements IHttpServer {
 
       context.status = 204;
     });
+  }
+
+  private changeSnsContentType(context: Context) {
+    const type = context.request.get('x-amz-sns-message-type');
+
+    if (!type) {
+      return;
+    }
+
+    context.request.headers['content-type'] = 'application/json';
   }
 }
