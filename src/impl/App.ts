@@ -19,7 +19,8 @@ export default class App {
     emailSender: IEmailSender
   ) {
     this.incomingMessageParser = new IncomingMessageParser(
-      this.discordBot,
+      logger,
+      discordBot,
       emailSender
     );
   }

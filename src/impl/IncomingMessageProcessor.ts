@@ -1,11 +1,13 @@
 import { Message } from 'discord.js';
 import { IEmailSender } from '../api/email/IEmailSender';
 import { IDiscordBot } from '../api/discord';
+import { Logger } from 'pino';
 
 export class IncomingMessageParser {
   private messages: Message[] = [];
 
   constructor(
+    private logger: Logger,
     private discordBot: IDiscordBot,
     private emailSender: IEmailSender
   ) {}
@@ -24,12 +26,19 @@ export class IncomingMessageParser {
     }
 
     this.messages.push(message);
+
+    this.logger.info(
+      'Accepted message into outgoing queue, ID: %s',
+      message.id
+    );
   }
 
   private async processQueue() {
     if (this.messages.length === 0) {
       return;
     }
+
+    this.logger.info('Processing %d outgoing messages', this.messages.length);
 
     let emailContent =
       'Your message digest. All times are in {timezone}. {date}<br/>';
@@ -46,6 +55,6 @@ export class IncomingMessageParser {
       } at {time}:</strong><br/>${cleanContent}`;
     }
 
-    this.emailSender.send(emailContent);
+    await this.emailSender.send(emailContent);
   }
 }
