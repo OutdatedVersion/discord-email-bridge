@@ -31,6 +31,10 @@ export class DiscordBot implements IDiscordBot {
     this.client.on('message', hook);
   }
 
+  public getClientId(): string {
+    return this.client.user.id;
+  }
+
   public getMainChannel(): TextChannel {
     const channel = this.client.channels.get(this.config.channelId);
 

@@ -5,4 +5,5 @@ export interface IDiscordBot {
   sendMessage(embed: RichEmbed): Promise<void>;
   registerReceiveHook(hook: (message: Message) => void): void;
   getMainChannel(): TextChannel;
+  getClientId(): string;
 }

@@ -21,7 +21,10 @@ export class IncomingMessageParser {
   private async acceptMessage(message: Message) {
     const channel = this.discordBot.getMainChannel();
 
-    if (channel.id !== message.channel.id) {
+    if (
+      channel.id !== message.channel.id ||
+      message.author.id === this.discordBot.getClientId()
+    ) {
       return;
     }
 
