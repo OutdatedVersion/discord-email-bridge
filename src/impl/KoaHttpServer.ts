@@ -28,7 +28,7 @@ export class KoaHttpServer implements IHttpServer {
         return;
       }
 
-      const { body } = context.request.body;
+      const { body } = context.request;
 
       if (!body) {
         context.throw(400, '400 empty body');
